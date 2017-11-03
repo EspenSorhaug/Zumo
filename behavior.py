@@ -36,6 +36,33 @@ class Behavior():
     """
     def sense_and_act(self):
         pass
+   
+
+
+class walk_randomly(Behavior):
+
+    def __init__(self,sensob,bbcon):
+        super.__init__(sensob,bbcon)
+
+    def consider_deactivation(self):
+        return False
+
+    def consider_activation(self):
+        return True
+
+    def update(self):
+        self.sense_and_act()
+
+    def sense_and_act(self):
+
+        directions = ['l','r','f','b']
+        direct_int = random.randint(0,4)
+        direction = directions(direct_int)
+        duration = round(random.random(),2)
+        speed = round(random.random(),2)
+
+        self.motor_recommendations = [direction,speed,duration]
+
     
     
     
