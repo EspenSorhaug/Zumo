@@ -36,3 +36,49 @@ class Behavior():
     """
     def sense_and_act(self):
         pass
+    
+    
+    
+class Clean(Behavior):
+    
+    def __init__(self, sensob, bbcon): # sensob = ultrasonic sensor object
+        super().__init__(sensob, bbcon)
+        self.priority = 1
+
+    def consider_activation(self):
+        distance = self.sensob.get_value()
+        if self.bbcon.is_taken_picture() and distance < 10:
+            return True
+        else:
+            return False
+
+    def consider_deactivation(self):
+        distance = self.sensob.get_value()
+        if distance > 10:
+            return True
+        else:
+            return False
+
+    def update(self):
+        # Checking if the behavior should change to deactive or active, and changing the active_flag
+        if self.active_flag:
+            change = self.consider_deactivation()
+            if change:
+                self.active_flag = False
+
+        else:
+            change = self.consider_activation()
+            if change:
+                self.active_flag = True
+
+
+        # Call sense_and_act and updating the weight IF this is an active behavior
+        if self.active_flag:
+            self.sense_and_act()
+            self.weight = self.match_degree * self.priority
+
+
+    def sense_and_act(self):
+        self.motor_recommendation = [('f', 0.5)]
+        self.match_degree = 1
+
