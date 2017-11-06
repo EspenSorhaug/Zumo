@@ -1,3 +1,5 @@
+import random
+
 
 class Behavior():
 
@@ -36,13 +38,12 @@ class Behavior():
     """
     def sense_and_act(self):
         pass
-   
 
 
-class walk_randomly(Behavior):
+class Walk_randomly(Behavior):
 
     def __init__(self,sensob,bbcon):
-        super.__init__(sensob,bbcon)
+        Behavior.__init__(self,sensob,bbcon)
 
     def consider_deactivation(self):
         return False
@@ -55,15 +56,13 @@ class walk_randomly(Behavior):
 
     def sense_and_act(self):
 
-        directions = ['l','r','f','b']
-        direct_int = random.randint(0,4)
-        direction = directions(direct_int)
-        duration = round(random.random(),2)
-        speed = round(random.random(),2)
+        directions = ['f','r','f','f']
+        direct_int = random.randint(0,3)
+        direction = directions[direct_int]
+        duration = 0.1
+        speed = 0.4
 
-        self.motor_recommendations = [[direction,speed,duration]]
-
-    
+        self.motor_recommendations = [[direction,speed,duration]]    
     
     
 class Clean(Behavior):
