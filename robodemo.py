@@ -23,7 +23,7 @@ def dancer():
     ZumoButton().wait_for_press()
     m = Motors()
     m.forward(.2,3)
-    m.backward(.2,3)
+    m.forward(.3,2)
     m.right(.5,3)
     m.left(.5,3)
     m.backward(.3,2.5)
