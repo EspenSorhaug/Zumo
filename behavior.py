@@ -61,7 +61,7 @@ class walk_randomly(Behavior):
         duration = round(random.random(),2)
         speed = round(random.random(),2)
 
-        self.motor_recommendations = [direction,speed,duration]
+        self.motor_recommendations = [[direction,speed,duration]]
 
     
     
