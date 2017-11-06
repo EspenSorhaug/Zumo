@@ -87,7 +87,7 @@ class AvoidBorders(Behavior):
             self.match_degree = 0
 
         # anbefaler å rygge, og svinge mot venstre dersom møter kant
-        self.motor_recommendations = [["b", .5, .5], ["l", .5, .5]]
+        self.motor_recommendations = [["b", .5, .2], ["l", .5, .1]]
 
 """
 Sensob har

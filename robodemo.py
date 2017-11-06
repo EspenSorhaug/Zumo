@@ -12,6 +12,7 @@ from sensob import Sensob
 from take_photo import Take_photo
 from avoid_borders import AvoidBorders as Avoid_borders
 from motob import Motob
+from walk_randomly import Walk_randomly
 
 
 ## BE SURE TO RUN THESE DEMOS ON THE FLOOR or to have plenty of people guarding
@@ -91,14 +92,17 @@ def rett_fram():
     ir = ReflectanceSensors(True)
     s = Sensob(ir)
     ab = Avoid_borders(s,s)
+    wr = Walk_randomly(s,s)
     m = Motob()
+    print("Motob set")
     ZumoButton().wait_for_press()
-    # motors = Motors()
+    print("Button pressed")
     while True:
         ab.update()
+        wr.update()
         print("Vekt: ",ab.weight)
         print("Rec: ",ab.motor_recommendations)
         if ab.weight > 0.5:
             m.update(ab.motor_recommendations)
         else:
-            motors.forward(0.3, 0.3)
+            m.update(wr.motor_recommendations)
