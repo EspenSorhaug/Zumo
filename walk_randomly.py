@@ -5,6 +5,7 @@ class Walk_randomly(Behavior):
 
     def __init__(self,sensob,bbcon):
         Behavior.__init__(self,sensob,bbcon)
+        self.weight = 0.1
 
     def consider_deactivation(self):
         return False

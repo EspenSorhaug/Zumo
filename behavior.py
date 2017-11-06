@@ -1,4 +1,5 @@
 import random
+import imager2 as IMR
 
 
 class Behavior():
@@ -20,6 +21,9 @@ class Behavior():
     # A test to see if the behavior should be activated
     def consider_activation(self):
         pass
+
+    def get_motor_recommendations(self):
+        return self.motor_recommendations
 
     """
     Purpose: The main interface between the bbcon and the behavior.
@@ -48,6 +52,7 @@ class Walk_randomly(Behavior):
 
     def __init__(self,sensob,bbcon):
         Behavior.__init__(self,sensob,bbcon)
+        self.weight = 0.1
 
     def consider_deactivation(self):
         return False
@@ -171,4 +176,52 @@ class Clean(Behavior):
     def sense_and_act(self):
         self.motor_recommendation = [['f', 0.5, 0.5]]
         self.match_degree = 1
+        
+
+        
+class Take_photo(Behavior):
+
+    def __init__(self,sensob,bbcon):
+        Behavior.__init__(self,sensob,bbcon)
+        self.priority = 1
+        self.motor_recommendations = None
+        self.photo_count = 0
+
+
+    def consider_deactivation(self):
+        if self.sensob.get_value() != None:
+            self.sensob.reset()
+            return True
+        return False
+
+
+    def consider_activation(self):
+        return False # TODO: bbcon set active
+
+    def set_active(self):
+        self.active_flag = True
+
+    def update(self):
+        if self.active_flag == True:
+
+            # Updates camera and saves image
+            self.sensob.update()
+            self.sense_and_act()
+            #Resets camera right away
+            if self.consider_deactivation():
+                self.active_flag = False
+        else:
+            if self.consider_activation():
+                self.active_flag = True
+        self.weight = self.priority * self.match_degree
+
+
+    def sense_and_act(self):
+        if self.active_flag:
+            im = IMR.Imager(image=self.sensob.get_value())
+            im.dump_image('garbage'+str(self.photo_count)+'.jpeg')
+            self.photo_count += 1
+            self.match_degree = 0
+        else:
+            self.match_degree = 1  
 
