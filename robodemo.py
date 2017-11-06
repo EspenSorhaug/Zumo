@@ -91,14 +91,14 @@ def rett_fram():
     ir = ReflectanceSensors(True)
     s = Sensob(ir)
     ab = Avoid_borders(s,s)
-    #m = Motob()
+    m = Motob()
     ZumoButton().wait_for_press()
-    motors = Motors()
+    # motors = Motors()
     while True:
         ab.update()
         print("Vekt: ",ab.weight)
         print("Rec: ",ab.motor_recommendations)
         if ab.weight > 0.5:
-            motors.backward(0.3,1)
+            m.update(ab.motor_recommendations)
         else:
-            motors.forward(0.3,0.3)
+            motors.forward(0.3, 0.3)
