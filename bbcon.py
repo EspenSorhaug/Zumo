@@ -18,6 +18,9 @@ def Class BBCON:
         self.sensobs = []
         self.motobs = []
         self.arbitrator = Arbitrator()
+        
+    def get_active_behaviors(self):
+        return self.active_behaviors
 
     def add_behavior(self,behavior):
         self.behaviors.append(behavior)
