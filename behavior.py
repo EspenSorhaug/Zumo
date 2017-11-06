@@ -106,6 +106,6 @@ class Clean(Behavior):
 
 
     def sense_and_act(self):
-        self.motor_recommendation = [('f', 0.5)]
+        self.motor_recommendation = [['f', 0.5, 0.5]]
         self.match_degree = 1
 
