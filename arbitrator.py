@@ -21,4 +21,4 @@ class Arbitrator():
             print("Arbitrator did not find any recommended behavior")
             return False
 
-        return (winning_behavior.get_motor_recommendations(),winning_behavior.is_halt())
+        return winning_behavior.get_motor_recommendations()
