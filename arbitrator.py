@@ -1,9 +1,8 @@
 class Arbitrator():
 
-    def choose_action(behavior1,behavior2): #Method that compares the wights of all active behaviors and returns the Motor_recommendations of the winning behavior and the corresponding motor recommendations
+    def choose_action(self,behavior1,behavior2): #Method that compares the wights of all active behaviors and returns the Motor_recommendations of the winning behavior and the corresponding motor recommendations
 
         winning_behavior = None
-        winning_behavior_weight = 0
         
         if behavior1.get_weight() > 0:
             winning_behavior = behavior1
