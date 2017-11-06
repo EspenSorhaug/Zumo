@@ -22,6 +22,9 @@ class Behavior():
     def consider_activation(self):
         pass
 
+    def get_motor_recommendations(self):
+        return self.motor_recommendations
+
     """
     Purpose: The main interface between the bbcon and the behavior.
     Actions: Update the activity status
@@ -49,6 +52,7 @@ class Walk_randomly(Behavior):
 
     def __init__(self,sensob,bbcon):
         Behavior.__init__(self,sensob,bbcon)
+        self.weight = 0.1
 
     def consider_deactivation(self):
         return False

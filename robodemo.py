@@ -9,10 +9,11 @@ from motors import Motors
 from ultrasonic import Ultrasonic
 from zumo_button import ZumoButton
 from sensob import Sensob
-from take_photo import Take_photo
-from avoid_borders import AvoidBorders as Avoid_borders
+from behavior import Take_photo
+from behavior import AvoidBorders as Avoid_borders
 from motob import Motob
-from walk_randomly import Walk_randomly
+from behavior import Walk_randomly
+from arbitrator import Arbitrator
 
 
 ## BE SURE TO RUN THESE DEMOS ON THE FLOOR or to have plenty of people guarding
@@ -93,6 +94,7 @@ def rett_fram():
     s = Sensob(ir)
     ab = Avoid_borders(s,s)
     wr = Walk_randomly(s,s)
+    a = Arbitrator()
     m = Motob()
     print("Motob set")
     ZumoButton().wait_for_press()
@@ -102,7 +104,6 @@ def rett_fram():
         wr.update()
         print("Vekt: ",ab.weight)
         print("Rec: ",ab.motor_recommendations)
-        if ab.weight > 0.5:
-            m.update(ab.motor_recommendations)
-        else:
-            m.update(wr.motor_recommendations)
+        winner_rec = a.choose_action(ab,wr)
+        print("recom: ",winner_rec)
+        m.update(winner_rec)
