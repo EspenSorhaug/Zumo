@@ -30,6 +30,10 @@ class Behavior():
     def update(self):
         pass
 
+    #Getter for the behhavior's weight
+    def get_weight(self):
+        return self.weight
+    
 
     """
     The core computations performed by the behavior that use sensob readings to produce motor recommendations
