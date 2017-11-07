@@ -13,10 +13,14 @@ class Behavior():
         self.priority = priority
         self.match_degree = 0
         self.weight = 0
+        self.name = "No-name"
 
     # A test to see if the behavior should be deactivated
     def consider_deactivation(self):
         pass
+
+    def get_name(self):
+        return self.name
 
     # A test to see if the behavior should be activated
     def consider_activation(self):
@@ -53,9 +57,13 @@ class Walk_randomly(Behavior):
     def __init__(self,sensob,bbcon):
         Behavior.__init__(self,sensob,bbcon)
         self.weight = 0.1
+        self.name = "Walk randomly"
 
     def consider_deactivation(self):
         return False
+
+    def get_name(self):
+        return self.name
 
     def consider_activation(self):
         return True
@@ -79,12 +87,16 @@ class AvoidBorders(Behavior):
     def __init__(self, sensob, bbcon):
         Behavior.__init__(self, sensob, bbcon)
         self.priority = 1
+        self.name = "Avoid borders"
     
     def consider_deactivation(self):
         return False
 
     def consider_activation(self):
         return True
+
+    def get_name(self):
+        return self.name
 
     def update(self):
         """
