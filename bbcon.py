@@ -9,6 +9,7 @@ from zumo_button import ZumoButton
 from arbitrator import Arbitrator
 from sensob import Sensob
 from motob import Motob
+from time import sleep
 # test
 
 def Class BBCON:
@@ -35,4 +36,18 @@ def Class BBCON:
     def deactivate_behavior(self,behavior):
         if behavior in self.active_behaviors:
             self.active_behaviors.remove(behavior)
-    
+
+    def run_one_time_step(self):
+        while True:
+            for sensob in self.sensobs:
+                sensob.update()
+            for behavior in self.active_behaviors:
+                behavior.update()
+                print("%s weight: %s" %(behavior.get_name(),behavior.get_weight()))
+            motor_recommendations = Arbitrator.choose_action()
+            print("Recommendations: %s",(motor_recommendations))
+            motob.update(motor_recommendations)
+            sleep(0.5)
+            #Halt_request
+
+
