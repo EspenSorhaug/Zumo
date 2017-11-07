@@ -8,8 +8,12 @@ from ultrasonic import Ultrasonic
 from zumo_button import ZumoButton
 from arbitrator import Arbitrator
 from sensob import Sensob
+from behavior import Take_photo
+from behavior import AvoidBorders as Avoid_borders
 from motob import Motob
-# test
+from behavior import Walk_randomly
+from arbitrator import Arbitrator
+
 
 class BBCON():
     def __init__():
