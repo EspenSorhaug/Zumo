@@ -13,6 +13,7 @@ from behavior import AvoidBorders as Avoid_borders
 from motob import Motob
 from behavior import Walk_randomly
 from arbitrator import Arbitrator
+from time import sleep
 
 
 class BBCON:
@@ -40,10 +41,18 @@ class BBCON:
         if behavior in self.active_behaviors:
             self.active_behaviors.remove(behavior)
 
-    def run_one_timestep(self):
-        for sensob in sensobs:
-            sensob.update()
-        motob.update()
+    def run_one_time_step(self):
+        while True:
+            for sensob in self.sensobs:
+                sensob.update()
+            for behavior in self.active_behaviors:
+                behavior.update()
+                print("%s weight: %s" % (behavior.get_name(), behavior.get_weight()))
+            motor_recommendations = Arbitrator.choose_action()
+            print("Recommendations: %s", (motor_recommendations))
+            self.motob.update(motor_recommendations)
+            sleep(0.5)
+            # Halt_request
 
 
 def main():
