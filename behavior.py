@@ -116,7 +116,6 @@ class AvoidBorders(Behavior):
 
         # dersom avoid_borders er blant de aktive behaviours
         if self.active_flag:
-            self.sensob.update()
             self.sense_and_act()
             self.weight = self.priority * self.match_degree
 
@@ -217,7 +216,6 @@ class Take_photo(Behavior):
         if self.active_flag == True:
 
             # Updates camera and saves image
-            self.sensob.update()
             self.sense_and_act()
             #Resets camera right away
             if self.consider_deactivation():
