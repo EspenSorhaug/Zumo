@@ -21,6 +21,7 @@ class BBCON:
         self.sensobs = []
         self.motob = Motob()
         self.arbitrator = Arbitrator(self)
+        self.picture_taken = False
         
     def get_active_behaviors(self):
         return self.active_behaviors
@@ -38,6 +39,9 @@ class BBCON:
     def deactivate_behavior(self,behavior):
         if behavior in self.active_behaviors:
             self.active_behaviors.remove(behavior)
+            
+    def is_picture_taken(self):
+        return self.picture_taken
 
     def run_one_timestep(self):
         for sensob in self.sensobs:

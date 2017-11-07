@@ -153,7 +153,7 @@ class Clean(Behavior):
 
     def consider_activation(self):
         distance = self.sensob.get_value()
-        if self.bbcon.is_taken_picture() and distance < 10:
+        if self.bbcon.is_picture_taken() and distance < 10:
             return True
         else:
             return False
