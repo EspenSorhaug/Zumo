@@ -10,9 +10,7 @@ from arbitrator import Arbitrator
 from sensob import Sensob
 from motob import Motob
 from time import sleep
-from behavior import Take_photo
-from behavior import AvoidBorders as Avoid_borders
-from behavior import Walk_randomly
+from behavior import *
 from arbitrator import Arbitrator
 # test
 
@@ -21,7 +19,7 @@ class BBCON:
         self.behaviors = []
         self.active_behaviors = []
         self.sensobs = []
-        self.motob = []
+        self.motob = Motob()
         self.arbitrator = Arbitrator(self)
         
     def get_active_behaviors(self):
@@ -41,18 +39,17 @@ class BBCON:
         if behavior in self.active_behaviors:
             self.active_behaviors.remove(behavior)
 
-    def run_one_time_step(self):
-        while True:
-            for sensob in self.sensobs:
-                sensob.update()
-            for behavior in self.active_behaviors:
-                behavior.update()
-                print("%s weight: %s" %(behavior.get_name(),behavior.get_weight()))
-            motor_recommendations = Arbitrator.choose_action()
-            print("Recommendations: %s",(motor_recommendations))
-            motob.update(motor_recommendations)
-            sleep(0.5)
-            #Halt_request
+    def run_one_timestep(self):
+        for sensob in self.sensobs:
+            sensob.update()
+        for behavior in self.active_behaviors:
+            behavior.update()
+            print("%s weight: %s" %(behavior.get_name(),behavior.get_weight()))
+        motor_recommendations = self.arbitrator.choose_action()
+        print("Recommendations: %s",(motor_recommendations))
+        self.motob.update(motor_recommendations)
+        sleep(0.5)
+        #Halt_request
 
 def main():
     # initialisering
@@ -60,11 +57,14 @@ def main():
     bbcon = BBCON()
 
     ir_sensob = Sensob(ReflectanceSensors(True))  # True betyr med auto-kalibrering
+    usonic_sensob = Sensob(Ultrasonic())
     avoid_borders = Avoid_borders(ir_sensob, bbcon)
     walk_randomly = Walk_randomly(None, bbcon)
+    clean = Clean(usonic_sensob,bbcon)
 
     # setup
     bbcon.add_sensob(ir_sensob)  # legger til IR sensob
+    bbcon.add_sensob(usonic)    # legger til Ultrasonic sensob
 
     bbcon.add_behavior(avoid_borders)  # legger til avoid_borders
     bbcon.add_behavior(walk_randomly)  # legger til walk_randomly

@@ -83,7 +83,7 @@ class Walk_randomly(Behavior):
         
 
         
-class AvoidBorders(Behavior):
+class Avoid_borders(Behavior):
     def __init__(self, sensob, bbcon):
         Behavior.__init__(self, sensob, bbcon)
         self.priority = 1
@@ -149,7 +149,7 @@ class Clean(Behavior):
     
     def __init__(self, sensob, bbcon): # sensob = ultrasonic sensor object
         super().__init__(sensob, bbcon)
-        self.priority = 1
+        self.priority = 0.5
 
     def consider_activation(self):
         distance = self.sensob.get_value()
