@@ -57,6 +57,7 @@ class BBCON:
 
 def main():
     # initialisering
+    ZumoButton().wait_for_press()
     bbcon = BBCON()
 
     ir_sensob = Sensob(ReflectanceSensors(True))  # True betyr med auto-kalibrering
@@ -72,7 +73,6 @@ def main():
     bbcon.activate_behavior(avoid_borders)
     bbcon.activate_behavior(walk_randomly)
 
-    ZumoButton().wait_for_press()
     while True:
         bbcon.run_one_timestep()
 
