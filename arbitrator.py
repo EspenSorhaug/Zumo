@@ -11,9 +11,9 @@ class Arbitrator():
                 winning_behavior = behavior
                 winning_behavior_weight = weight
         
-        if winning_behavior == None:
+        if winning_behavior is None:
             print("Arbitrator did not find any recommended behavior")
-            # Stå i ro dersom
-            return [['f',0,0]]
+            # Dont move
+            return [['f', 0, 0]]
 
         return winning_behavior.get_motor_recommendations()
