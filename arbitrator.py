@@ -2,8 +2,8 @@ from bbcon import BBCON
 
 class Arbitrator():
 
-    def choose_action(self): #Method that compares the wights of all active behaviors and returns the Motor_recommendations of the winning behavior and the corresponding motor recommendations
-
+    #  Method for choosing recommended behavior
+    def choose_action(self):
         winning_behavior = None
 
         for behavior in BBCON.get_active_behaviors():

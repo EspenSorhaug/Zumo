@@ -17,7 +17,7 @@ def Class BBCON:
         self.behaviors = []
         self.active_behaviors = []
         self.sensobs = []
-        self.motobs = []
+        self.motob = []
         self.arbitrator = Arbitrator()
         
     def get_active_behaviors(self):

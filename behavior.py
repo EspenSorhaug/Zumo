@@ -13,10 +13,14 @@ class Behavior():
         self.priority = priority
         self.match_degree = 0
         self.weight = 0
+        self.name = "No-name"
 
     # A test to see if the behavior should be deactivated
     def consider_deactivation(self):
         pass
+
+    def get_name(self):
+        return self.name
 
     # A test to see if the behavior should be activated
     def consider_activation(self):
