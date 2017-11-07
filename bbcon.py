@@ -11,12 +11,12 @@ from sensob import Sensob
 from motob import Motob
 # test
 
-def Class BBCON:
+class BBCON():
     def __init__():
         self.behaviors = []
         self.active_behaviors = []
         self.sensobs = []
-        self.motobs = []
+        self.motob = Motob()
         self.arbitrator = Arbitrator()
         
     def get_active_behaviors(self):
@@ -35,12 +35,21 @@ def Class BBCON:
     def deactivate_behavior(self,behavior):
         if behavior in self.active_behaviors:
             self.active_behaviors.remove(behavior)
-    
-    def main():
-        return False
+
+    def run_one_timestep(self):
+        for sensob in sensobs:
+            sensob.update()
+        motob.update()
+
+
+def main():
+    a = 5
+
+    while True:
+        run_one_timestep()
 
 
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
 
