@@ -11,7 +11,7 @@ from sensob import Sensob
 from motob import Motob
 # test
 
-class BBCON():
+class BBCON:
     def __init__():
         self.behaviors = []
         self.active_behaviors = []
