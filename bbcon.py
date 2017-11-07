@@ -36,3 +36,7 @@ def Class BBCON:
         if behavior in self.active_behaviors:
             self.active_behaviors.remove(behavior)
     
+    def main():
+        return False
+
+    main()
