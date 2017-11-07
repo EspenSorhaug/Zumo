@@ -12,7 +12,7 @@ from motob import Motob
 from time import sleep
 # test
 
-def Class BBCON:
+class BBCON:
     def __init__():
         self.behaviors = []
         self.active_behaviors = []
@@ -50,4 +50,28 @@ def Class BBCON:
             sleep(0.5)
             #Halt_request
 
+def main():
+    # initialisering
+    ZumoButton().wait_for_press()
+    bbcon = BBCON()
+
+    ir_sensob = Sensob(ReflectanceSensors(True))  # True betyr med auto-kalibrering
+    avoid_borders = Avoid_borders(ir_sensob, bbcon)
+    walk_randomly = Walk_randomly(None, bbcon)
+
+    # setup
+    bbcon.add_sensob(ir_sensob)  # legger til IR sensob
+
+    bbcon.add_behavior(avoid_borders)  # legger til avoid_borders
+    bbcon.add_behavior(walk_randomly)  # legger til walk_randomly
+
+    bbcon.activate_behavior(avoid_borders)
+    bbcon.activate_behavior(walk_randomly)
+
+    while True:
+        bbcon.run_one_timestep()
+
+
+if _name_ == '_main_':
+    main()
 
