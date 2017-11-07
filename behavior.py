@@ -195,12 +195,13 @@ class Take_photo(Behavior):
     def __init__(self,sensob,bbcon):
         Behavior.__init__(self,sensob,bbcon)
         self.priority = 1
+        self.match_degree = 1
         self.motor_recommendations = None
         self.photo_count = 0
 
 
     def consider_deactivation(self):
-        if self.sensob.get_value() != None:
+        if self.sensob.get_value() is not None:
             self.sensob.reset()
             return True
         return False
@@ -227,11 +228,58 @@ class Take_photo(Behavior):
 
 
     def sense_and_act(self):
-        if self.active_flag:
             im = IMR.Imager(image=self.sensob.get_value())
             im.dump_image('garbage'+str(self.photo_count)+'.jpeg')
             self.photo_count += 1
-            self.match_degree = 0
-        else:
-            self.match_degree = 1  
+            self.bbcon.picture_taken = True
 
+
+class Approach():
+
+    def __init__(self,sensob,bbcon):
+        self.name = "Approach"
+        Behavior.__init__(self,sensob,bbcon)
+        self.priority = 0.5
+
+    def consider_deactivation(self):
+        return False
+
+    def consider_activation(self):
+        return True
+
+    """
+    Purpose: The main interface between the bbcon and the behavior.
+    Actions: Update the activity status
+             Call sense_and_act
+             Update the behavior's weight
+    :return:
+    """
+    def update(self):
+        # sjekker om active_flag stemmer
+        if self.active_flag:
+            if self.consider_deactivation():
+                self.active_flag = False
+        else:
+            if self.consider_activation():
+                self.active_flag = True
+
+        #dersom approach er blant active behaviors
+        if self.active_flag:
+            self.sense_and_act()
+            self.weight = self.priority * self.match_degree
+
+
+    def sense_and_act(self):
+
+        sensob_value = self.sensob.get_value()
+        threshold = 20
+
+        #Sjekker om et objekt er mindre enn 20cm fra roboten,
+        #deretter oker match_degree
+        if sensob_value < threshold:
+            self.match_degree = sensob_value/threshold
+            self.motor_recommendations = [["f", .5, .2]]
+
+        #When zumo is within 10cm of an object take_photo should have greater weight
+        elif sensob_value <= 10:
+            self.motor_recommendations = [["f",0,0]]
