@@ -39,4 +39,8 @@ def Class BBCON:
     def main():
         return False
 
-    main()
+
+
+    if __name__ == '__main__':
+        main()
+
