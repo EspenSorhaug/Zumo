@@ -10,15 +10,19 @@ from arbitrator import Arbitrator
 from sensob import Sensob
 from motob import Motob
 from time import sleep
+from behavior import Take_photo
+from behavior import AvoidBorders as Avoid_borders
+from behavior import Walk_randomly
+from arbitrator import Arbitrator
 # test
 
 class BBCON:
-    def __init__():
+    def __init__(self):
         self.behaviors = []
         self.active_behaviors = []
         self.sensobs = []
         self.motob = []
-        self.arbitrator = Arbitrator()
+        self.arbitrator = Arbitrator(self)
         
     def get_active_behaviors(self):
         return self.active_behaviors
@@ -72,6 +76,6 @@ def main():
         bbcon.run_one_timestep()
 
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     main()
 
