@@ -234,7 +234,7 @@ class Take_photo(Behavior):
             self.bbcon.picture_taken = True
 
 
-class Approach():
+class Approach(Behavior):
 
     def __init__(self,sensob,bbcon):
         self.name = "Approach"
@@ -274,12 +274,15 @@ class Approach():
         sensob_value = self.sensob.get_value()
         threshold = 20
 
-        #Sjekker om et objekt er mindre enn 20cm fra roboten,
-        #deretter oker match_degree
-        if sensob_value < threshold:
-            self.match_degree = sensob_value/threshold
-            self.motor_recommendations = [["f", .5, .2]]
 
         #When zumo is within 10cm of an object take_photo should have greater weight
-        elif sensob_value <= 10:
+        if sensob_value <= 10:
+            self.match_degree = sensob_value/threshold
             self.motor_recommendations = [["f",0,0]]
+        #Sjekker om et objekt er mindre enn 20cm fra roboten,
+        #deretter oker match_degree
+        elif sensob_value < threshold:
+            self.match_degree = sensob_value/threshold
+            self.motor_recommendations = [["f", .5, .2]]
+        else:
+            self.match_degree = 0
