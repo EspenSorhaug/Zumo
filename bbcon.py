@@ -15,7 +15,7 @@ from behavior import Walk_randomly
 from arbitrator import Arbitrator
 
 
-class BBCON():
+class BBCON:
     def __init__():
         self.behaviors = []
         self.active_behaviors = []
