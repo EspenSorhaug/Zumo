@@ -43,11 +43,24 @@ class BBCON:
 
 
 def main():
-    a = 5
+    # initialisering
+    bbcon = BBCON()
+
+    ir_sensob = Sensob(ReflectanceSensors(True))  # True betyr med auto-kalibrering
+    avoid_borders = Avoid_borders(ir_sensob, bbcon)
+    walk_randomly = Walk_randomly(None, bbcon)
+
+    # setup
+    bbcon.add_sensob(ir_sensob)  # legger til IR sensob
+
+    bbcon.add_behavior(avoid_borders)  # legger til avoid_borders
+    bbcon.add_behavior(walk_randomly)  # legger til walk_randomly
+
+    bbcon.activate_behavior(avoid_borders)
+    bbcon.activate_behavior(walk_randomly)
 
     while True:
-        run_one_timestep()
-
+        bbcon.run_one_timestep()
 
 
 if __name__ == '__main__':
