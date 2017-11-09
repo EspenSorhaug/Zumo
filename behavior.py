@@ -212,7 +212,7 @@ class Take_photo(Behavior):
         Behavior.__init__(self,sensob,bbcon)
         self.priority = 1
         self.match_degree = 1
-        self.motor_recommendations = None
+        self.motor_recommendations = [["f",0,0.1]]
         self.photo_count = 0
         self.name = "Photograph"
 
@@ -264,7 +264,7 @@ class Take_photo(Behavior):
             im.dump_image('garbage'+str(self.photo_count)+'.jpeg')
             self.photo_count += 1
             self.bbcon.picture_taken = True
-            self.motor_recommendations = [["f",0,0]]
+            self.motor_recommendations = [["f",0,0.1]]
 
 
 
