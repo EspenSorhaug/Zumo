@@ -73,11 +73,12 @@ class Walk_randomly(Behavior):
 
     def sense_and_act(self):
 
-        directions = ['f','r','f','f']
+        directions = ['f','r','f','f']  # testing
+        # directions = ['f', 'f', 'f', 'f', 'r', 'l']
         direct_int = random.randint(0,3)
         direction = directions[direct_int]
         duration = 0.1
-        speed = 0.4
+        speed = 0.3
 
         self.motor_recommendations = [[direction,speed,duration]]    
         
@@ -213,37 +214,46 @@ class Take_photo(Behavior):
 
 
     def consider_deactivation(self):
-        if self.sensob.get_value() is not None:
+        if self.sensob.get_value()[0] is not None:
             self.sensob.reset()
             return True
         return False
 
 
     def consider_activation(self):
-        return False # TODO: bbcon set active
+            if self.sensob.get_value()[1]<=10 and not self.bbcon.picture_taken:
+                return True
+            return False
 
     def set_active(self):
         self.active_flag = True
 
     def update(self):
-        if self.active_flag == True:
-
-            # Updates camera and saves image
-            self.sense_and_act()
-            #Resets camera right away
-            if self.consider_deactivation():
-                self.active_flag = False
-        else:
-            if self.consider_activation():
-                self.active_flag = True
+        # Updates camera and saves image if mode is not stand by
+        #Resets camera right away
+        if self.consider_deactivation():
+            self.active_flag = False
+            self.bbcon.deactivate_behavior(self)
+        elif self.consider_activation():
+            self.set_active()
+            self.bbcon.activate_behavior(self)
+        self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
 
     def sense_and_act(self):
+        us_value = self.sensob.get_value()[1]
+
+
+        #When zumo is within 10cm of an object take_photo should have greater weight
+        if us_value <= 10 and self.bbcon.picture_taken == False and self.active_flag:
             im = IMR.Imager(image=self.sensob.get_value())
             im.dump_image('garbage'+str(self.photo_count)+'.jpeg')
             self.photo_count += 1
             self.bbcon.picture_taken = True
+            self.motor_recommendations = [["f",0,0]]
+
+
 
 
 class Approach(Behavior):

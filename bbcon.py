@@ -62,21 +62,24 @@ def main():
 
     ir_sensob = Sensob(ReflectanceSensors(True))  # True betyr med auto-kalibrering
     usonic_sensob = Sensob(Ultrasonic())
-    camera_sensob = Sensob(Camera())
+    camera_sensob = Sensob(Camera(),Ultrasonic())
 
     avoid_borders = Avoid_borders(ir_sensob, bbcon)
     walk_randomly = Walk_randomly(None, bbcon)
     clean = Clean(usonic_sensob,bbcon)
     approach = Approach(usonic_sensob,bbcon)
+    take_photo = Take_photo(camera_sensob,bbcon)
 
     # setup
-    bbcon.add_sensob(ir_sensob)  # legger til IR sensob
+    bbcon.add_sensob(ir_sensob)        # legger til IR sensob
     bbcon.add_sensob(usonic_sensob)    # legger til Ultrasonic sensob
+    bbcon.add_sensob(camera_sensob)    # legger til Ultrasonic/camera sensob
 
     bbcon.add_behavior(avoid_borders)  # legger til avoid_borders
     bbcon.add_behavior(walk_randomly)  # legger til walk_randomly
-    bbcon.add_behavior(clean)
-    bbcon.add_behavior(approach)
+    bbcon.add_behavior(clean)          # legger til clean
+    bbcon.add_behavior(approach)       # legger til approach
+    bbcon.add_behavior(take_photo)     # legger til take_photo
 
     bbcon.activate_behavior(avoid_borders)
     bbcon.activate_behavior(walk_randomly)
