@@ -57,7 +57,7 @@ class BBCON:
         motor_recommendations = self.arbitrator.choose_action()
         #print("Recommendations: %s",(motor_recommendations))
         self.motob.update(motor_recommendations)
-        #sleep(0.5)
+        sleep(0.5)
         #Halt_request
 
 def main():
