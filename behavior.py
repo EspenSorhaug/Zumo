@@ -73,11 +73,12 @@ class Walk_randomly(Behavior):
 
     def sense_and_act(self):
 
-        directions = ['f','r','f','f']
+        directions = ['f','r','f','f']  # testing
+        # directions = ['f', 'f', 'f', 'f', 'r', 'l']
         direct_int = random.randint(0,3)
         direction = directions[direct_int]
         duration = 0.1
-        speed = 0.4
+        speed = 0.3
 
         self.motor_recommendations = [[direction,speed,duration]]    
         
