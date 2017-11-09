@@ -141,6 +141,7 @@ class Avoid_borders(Behavior):
 
         if values_sum < 2:
             self.match_degree = 1
+            self.bbcon.picture_taken = False
         else:
             self.match_degree = 0
 
@@ -151,8 +152,10 @@ class Avoid_borders(Behavior):
 
         if border_found.__contains__([0,1]) and not border_found.__contains__([4,5]):
             self.motor_recommendations = [["b", .5, .4], ["r", .5, .6]]
+            self.bbcon.picture_taken = False
         elif border_found.__contains__([4,5]) and not border_found.__contains__([0,1]):
             self.motor_recommendations = [["b", .5, .4], ["l", .5, .6]]
+            self.bbcon.picture_taken = False
         else:
             # anbefaler å rygge, og svinge mot venstre dersom møter kant
             self.motor_recommendations = [["b", .5, .4], ["l", .5, .9]]
@@ -232,15 +235,19 @@ class Take_photo(Behavior):
     def update(self):
         # Updates camera and saves image if mode is not stand by
         #Resets camera right away
-        self.sensob.update()
-        if self.consider_deactivation():
-            self.active_flag = False
-            self.bbcon.deactivate_behavior(self)
-        elif self.consider_activation():
-            self.set_active()
-            self.bbcon.activate_behavior(self)
-        self.sense_and_act()
-        self.weight = self.priority * self.match_degree
+        #self.sensob.update()
+        if self.active_flag:
+            if self.consider_deactivation():
+                self.active_flag = False
+                self.bbcon.deactivate_behavior(self)
+        else:
+            if self.consider_activation():
+                self.set_active()
+                self.bbcon.activate_behavior(self)
+
+        if self.active_flag:
+            self.sense_and_act()
+            self.weight = self.priority * self.match_degree
 
 
     def sense_and_act(self):

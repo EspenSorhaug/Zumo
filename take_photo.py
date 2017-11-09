@@ -68,7 +68,7 @@ class Take_photo(Behavior):
         if self.active_flag == True:
 
             # Updates camera and saves image
-            self.sensob.update()
+            #self.sensob.update()
             self.sense_and_act()
             #Resets camera right away
             if self.consider_deactivation():

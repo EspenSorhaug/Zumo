@@ -84,7 +84,7 @@ def main():
     bbcon.activate_behavior(avoid_borders)
     bbcon.activate_behavior(walk_randomly)
     bbcon.activate_behavior(approach)
-    bbcon.activate_behavior(take_photo)
+    #bbcon.activate_behavior(take_photo)
 
     while True:
         bbcon.run_one_timestep()
