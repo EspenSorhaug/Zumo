@@ -245,7 +245,7 @@ class Take_photo(Behavior):
 
     def sense_and_act(self):
         us_value = self.sensob.get_value()[1]
-
+        print(us_value)
 
         #When zumo is within 10cm of an object take_photo should have greater weight
         if us_value <= 10 and self.bbcon.picture_taken is False and self.active_flag:
