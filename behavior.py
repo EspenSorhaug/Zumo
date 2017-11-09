@@ -235,7 +235,7 @@ class Take_photo(Behavior):
     def update(self):
         # Updates camera and saves image if mode is not stand by
         #Resets camera right away
-
+        print("\n\n")
         print("UPDATE CAMERA")
         if self.active_flag:
             if self.consider_deactivation():
