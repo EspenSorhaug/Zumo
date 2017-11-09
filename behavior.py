@@ -210,7 +210,7 @@ class Take_photo(Behavior):
 
     def __init__(self,sensob,bbcon):
         Behavior.__init__(self,sensob,bbcon)
-        self.priority = 1
+        self.priority = 0.8
         self.match_degree = 1
         self.motor_recommendations = [["f",0,0.1]]
         self.photo_count = 0
@@ -225,7 +225,7 @@ class Take_photo(Behavior):
 
 
     def consider_activation(self):
-            if self.sensob.get_value()[1]<=10 and not self.bbcon.picture_taken:
+            if not self.bbcon.picture_taken and self.sensob.get_value()[1]<=10:
                 return True
             return False
 
@@ -237,12 +237,10 @@ class Take_photo(Behavior):
         #Resets camera right away
         print("\n\n")
         print("UPDATE CAMERA")
-        if self.active_flag:
-            if self.consider_deactivation():
+        if self.consider_deactivation():
                 self.active_flag = False
                 self.bbcon.deactivate_behavior(self)
-        else:
-            if self.consider_activation():
+        elif self.consider_activation():
                 self.set_active()
                 self.bbcon.activate_behavior(self)
 
@@ -258,7 +256,7 @@ class Take_photo(Behavior):
         print(us_value)
 
         #When zumo is within 10cm of an object take_photo should have greater weight
-        if us_value <= 10 and self.bbcon.picture_taken is False and self.active_flag:
+        if us_value <= 10 and not self.bbcon.picture_taken and self.active_flag:
             im = IMR.Imager(image=self.sensob.get_value()[0])
             print("TAKING PHOTO")
             im.dump_image('garbage'+str(self.photo_count)+'.jpeg')
