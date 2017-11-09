@@ -46,11 +46,11 @@ class BBCON:
     def run_one_timestep(self):
         for sensob in self.sensobs:
             sensob.update()
-        for behavior in self.behaviors:
+        for behavior in self.active_behaviors:
             behavior.update()
-            print("%s weight: %s" %(behavior.get_name(),behavior.get_weight()))
+            #print("%s weight: %s" %(behavior.get_name(),behavior.get_weight()))
         motor_recommendations = self.arbitrator.choose_action()
-        print("Recommendations: %s",(motor_recommendations))
+        #print("Recommendations: %s",(motor_recommendations))
         self.motob.update(motor_recommendations)
         #sleep(0.5)
         #Halt_request
@@ -84,6 +84,7 @@ def main():
     bbcon.activate_behavior(avoid_borders)
     bbcon.activate_behavior(walk_randomly)
     bbcon.activate_behavior(approach)
+    bbcon.activate_behavior(take_photo)
 
     while True:
         bbcon.run_one_timestep()
