@@ -256,7 +256,7 @@ class Take_photo(Behavior):
         print(us_value)
 
         #When zumo is within 10cm of an object take_photo should have greater weight
-        if us_value <= 10 and not self.bbcon.picture_taken and self.active_flag:
+        if not self.bbcon.picture_taken and self.active_flag:
             im = IMR.Imager(image=self.sensob.get_value()[0])
             print("TAKING PHOTO")
             im.dump_image('garbage'+str(self.photo_count)+'.jpeg')
