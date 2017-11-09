@@ -211,6 +211,7 @@ class Take_photo(Behavior):
         self.match_degree = 1
         self.motor_recommendations = None
         self.photo_count = 0
+        self.name = "Photograph"
 
 
     def consider_deactivation(self):
@@ -231,6 +232,7 @@ class Take_photo(Behavior):
     def update(self):
         # Updates camera and saves image if mode is not stand by
         #Resets camera right away
+        self.sensob.update()
         if self.consider_deactivation():
             self.active_flag = False
             self.bbcon.deactivate_behavior(self)
@@ -246,8 +248,9 @@ class Take_photo(Behavior):
 
 
         #When zumo is within 10cm of an object take_photo should have greater weight
-        if us_value <= 10 and self.bbcon.picture_taken == False and self.active_flag:
-            im = IMR.Imager(image=self.sensob.get_value())
+        if us_value <= 10 and self.bbcon.picture_taken is False and self.active_flag:
+            im = IMR.Imager(image=self.sensob.get_value()[0])
+            print("TAKING PHOTO")
             im.dump_image('garbage'+str(self.photo_count)+'.jpeg')
             self.photo_count += 1
             self.bbcon.picture_taken = True

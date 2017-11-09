@@ -14,7 +14,7 @@ class Sensob:
 
     def get_value(self):
         if self.sensor2 is not None:
-            return [sensor.get_value(),sensor2.get_value()]
+            return [self.sensor.get_value(),self.sensor2.get_value()]
         return self.sensor.get_value()
 
     def reset(self): self.value = None

@@ -46,7 +46,7 @@ class BBCON:
     def run_one_timestep(self):
         for sensob in self.sensobs:
             sensob.update()
-        for behavior in self.active_behaviors:
+        for behavior in self.behaviors:
             behavior.update()
             print("%s weight: %s" %(behavior.get_name(),behavior.get_weight()))
         motor_recommendations = self.arbitrator.choose_action()
@@ -62,7 +62,7 @@ def main():
 
     ir_sensob = Sensob(ReflectanceSensors(True))  # True betyr med auto-kalibrering
     usonic_sensob = Sensob(Ultrasonic())
-    camera_sensob = Sensob(Camera(),Ultrasonic())
+    camera_sensob = Sensob(sensor=Camera(), sensor2=Ultrasonic())
 
     avoid_borders = Avoid_borders(ir_sensob, bbcon)
     walk_randomly = Walk_randomly(None, bbcon)
@@ -77,7 +77,7 @@ def main():
 
     bbcon.add_behavior(avoid_borders)  # legger til avoid_borders
     bbcon.add_behavior(walk_randomly)  # legger til walk_randomly
-    bbcon.add_behavior(clean)          # legger til clean
+    #bbcon.add_behavior(clean)          # legger til clean
     bbcon.add_behavior(approach)       # legger til approach
     bbcon.add_behavior(take_photo)     # legger til take_photo
 
