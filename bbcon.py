@@ -27,10 +27,12 @@ class BBCON:
         return self.active_behaviors
 
     def add_behavior(self,behavior):
-        self.behaviors.append(behavior)
+        if behavior not in self.behaviors:
+            self.behaviors.append(behavior)
 
-    def add_sensob(self,sensob):
-        self.sensobs.append(sensob)
+    def add_sensob(self, sensob):
+        if sensob not in self.sensobs:
+            self.sensobs.append(sensob)
 
     def activate_behavior(self,behavior):
         if behavior not in self.active_behaviors:
