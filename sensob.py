@@ -7,7 +7,7 @@ class Sensob:
 
     def update(self):
         # hent og endre rådata fra sensor
-        self.sensor.update() # TODO: Her eller i BBCON?
+        self.sensor.update()
         if self.sensor2 is not None:
             self.sensor2.update()
         self.value = self.sensor.get_value() # TODO: Hvordan ønsker vi verdier representert?

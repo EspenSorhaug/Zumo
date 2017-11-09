@@ -218,7 +218,7 @@ class Take_photo(Behavior):
 
 
     def consider_deactivation(self):
-        if self.sensob.get_value()[0] is not None:
+        if self.bbcon.picture_taken:
             self.sensob.reset()
             return True
         return False
@@ -318,6 +318,6 @@ class Approach(Behavior):
         #deretter oker match_degree
         elif sensob_value < threshold:
             self.match_degree = sensob_value/threshold
-            self.motor_recommendations = [["f", .5, .2]]
+            self.motor_recommendations = [["f", .3, .1]]
         else:
             self.match_degree = 0
