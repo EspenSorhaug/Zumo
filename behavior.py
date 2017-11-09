@@ -218,7 +218,6 @@ class Take_photo(Behavior):
 
     def update(self):
         # Updates camera and saves image if mode is not stand by
-        self.sense_and_act()
         #Resets camera right away
         if self.consider_deactivation():
             self.active_flag = False
@@ -226,6 +225,7 @@ class Take_photo(Behavior):
         elif self.consider_activation():
             self.set_active()
             self.bbcon.activate_behavior(self)
+        self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
 
