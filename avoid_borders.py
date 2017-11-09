@@ -77,6 +77,7 @@ class AvoidBorders(Behavior):
         # the amount of reflectance picked up by each one.  A high reflectance (near 1) indicates a LIGHT surface, while
         # a value near 0 indicates a DARK surface.
         sensob_values = self.sensob.get_value()
+        print("sensob_values: ", sensob_values)
         values_sum = sum(sensob_values)
 
         # dersom sum av de 6 verdiene er under 3, økes matchdegree
@@ -88,6 +89,7 @@ class AvoidBorders(Behavior):
 
         # anbefaler å rygge, og svinge mot venstre dersom møter kant
         self.motor_recommendations = [["b", .5, .2], ["l", .5, .1]]
+        print()
 
 """
 Sensob har

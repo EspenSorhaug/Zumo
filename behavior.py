@@ -134,16 +134,28 @@ class Avoid_borders(Behavior):
         sensob_values = self.sensob.get_value()
         values_sum = sum(sensob_values)
 
+        print("sensob_values: ", sensob_values)
         # dersom sum av de 6 verdiene er under 3, økes matchdegree
         print("Sens_val: ",values_sum)
+
         if values_sum < 2:
             self.match_degree = 1
         else:
             self.match_degree = 0
 
-        # anbefaler å rygge, og svinge mot venstre dersom møter kant
-        self.motor_recommendations = [["b", .5, .2], ["l", .5, .1]]
-    
+        border_found = []
+        for i in range(sensob_values.__len__()):
+            if sensob_values[i] < .7:
+                border_found.append(i)
+
+        if border_found.__contains__([0,1]) and not border_found.__contains__([4,5]):
+            self.motor_recommendations = [["b", .5, .4], ["r", .5, .6]]
+        elif border_found.__contains__([4,5]) and not border_found.__contains__([0,1]):
+            self.motor_recommendations = [["b", .5, .4], ["l", .5, .6]]
+        else:
+            # anbefaler å rygge, og svinge mot venstre dersom møter kant
+            self.motor_recommendations = [["b", .5, .4], ["l", .5, .9]]
+        print()
     
 class Clean(Behavior):
     
