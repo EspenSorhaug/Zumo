@@ -80,7 +80,7 @@ def main():
     bbcon.add_behavior(walk_randomly)  # legger til walk_randomly
     #bbcon.add_behavior(clean)          # legger til clean
     bbcon.add_behavior(approach)       # legger til approach
-    bbcon.add_behavior(take_photo)     # legger til take_photo
+    #bbcon.add_behavior(take_photo)     # legger til take_photo
 
     bbcon.activate_behavior(avoid_borders)
     bbcon.activate_behavior(walk_randomly)

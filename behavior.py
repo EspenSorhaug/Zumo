@@ -236,6 +236,7 @@ class Take_photo(Behavior):
         # Updates camera and saves image if mode is not stand by
         #Resets camera right away
         #self.sensob.update()
+        print("UPDATE CAMERA")
         if self.active_flag:
             if self.consider_deactivation():
                 self.active_flag = False
@@ -251,6 +252,7 @@ class Take_photo(Behavior):
 
 
     def sense_and_act(self):
+        print("SENSE AND ACT CAMERA")
         us_value = self.sensob.get_value()[1]
         print(us_value)
 
