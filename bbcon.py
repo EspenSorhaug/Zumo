@@ -59,10 +59,11 @@ def main():
     # initialisering
     ZumoButton().wait_for_press()
     bbcon = BBCON()
+    us = Ultrasonic()
 
     ir_sensob = Sensob(ReflectanceSensors(True))  # True betyr med auto-kalibrering
-    usonic_sensob = Sensob(Ultrasonic())
-    camera_sensob = Sensob(sensor=Camera(), sensor2=Ultrasonic())
+    usonic_sensob = Sensob(us)
+    camera_sensob = Sensob(sensor=Camera(), sensor2=us)
 
     avoid_borders = Avoid_borders(ir_sensob, bbcon)
     walk_randomly = Walk_randomly(None, bbcon)
