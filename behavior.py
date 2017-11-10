@@ -138,12 +138,6 @@ class Avoid_borders(Behavior):
 
         # dersom sum av de 6 verdiene er under 3, økes matchdegree
 
-        if values_sum < 2:
-            self.match_degree = 1
-            self.bbcon.picture_taken = False
-            self.bbcon.reset = True
-        else:
-            self.match_degree = 0
 
         border_found = []
         for i in range(sensob_values.__len__()):
@@ -154,13 +148,26 @@ class Avoid_borders(Behavior):
             self.motor_recommendations = [["b", .5, .4], ["r", .5, .6]]
             self.bbcon.picture_taken = False
             self.bbcon.reset = True
+            self.match_degree = 1
         elif border_found.__contains__([4,5]) and not border_found.__contains__([0,1]):
             self.motor_recommendations = [["b", .5, .4], ["l", .5, .6]]
             self.bbcon.picture_taken = False
             self.bbcon.reset = True
-        else:
-            # anbefaler å rygge, og svinge mot venstre dersom møter kant
+            self.match_degree = 1
+        #else:
+        #    # anbefaler å rygge, og svinge mot venstre dersom møter kant
+        #    self.motor_recommendations = [["b", .5, .4], ["l", .5, .9]]
+
+        elif values_sum < 2:
+            self.match_degree = 1
+            self.bbcon.picture_taken = False
+            self.bbcon.reset = True
             self.motor_recommendations = [["b", .5, .4], ["l", .5, .9]]
+        else:
+            self.match_degree = 0
+            self.motor_recommendations = [["b", .5, .4], ["l", .5, .9]]
+
+
     
 class Clean(Behavior):
     
