@@ -80,7 +80,6 @@ def main():
     # setup
     bbcon.add_sensob(ir_sensob)        # legger til IR sensob
     bbcon.add_sensob(usonic_sensob)    # legger til Ultrasonic sensob
-    #bbcon.add_sensob(camera_sensob)    # legger til Ultrasonic/camera sensob
 
     bbcon.add_behavior(avoid_borders)  # legger til avoid_borders
     bbcon.add_behavior(walk_randomly)  # legger til walk_randomly
@@ -92,7 +91,6 @@ def main():
     bbcon.activate_behavior(walk_randomly)
     bbcon.activate_behavior(approach)
     bbcon.activate_behavior(clean)
-    #bbcon.activate_behavior(take_photo)
 
     while True:
         bbcon.run_one_timestep()
