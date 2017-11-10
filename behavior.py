@@ -144,12 +144,12 @@ class Avoid_borders(Behavior):
             if sensob_values[i] < .7:
                 border_found.append(i)
 
-        if border_found.__contains__([0,1]) and not border_found.__contains__([4,5]):
+        if border_found.__contains__(0) or border_found.__contains__(1) and not border_found.__contains__([4,5]):
             self.motor_recommendations = [["b", .5, .4], ["r", .5, .6]]
             self.bbcon.picture_taken = False
             self.bbcon.reset = True
             self.match_degree = 1
-        elif border_found.__contains__([4,5]) and not border_found.__contains__([0,1]):
+        elif border_found.__contains__(4) or border_found.__contains__(5) and not border_found.__contains__([0,1]):
             self.motor_recommendations = [["b", .5, .4], ["l", .5, .6]]
             self.bbcon.picture_taken = False
             self.bbcon.reset = True
