@@ -178,14 +178,14 @@ class Clean(Behavior):
 
     def consider_activation(self):
         distance = self.sensob.get_value()
-        if self.bbcon.is_picture_taken() and distance <=10:
+        if self.bbcon.is_picture_taken():
             return True
         else:
             return False
 
     def consider_deactivation(self):
         distance = self.sensob.get_value()
-        if not self.bbcon.picture_taken:
+        if not self.bbcon.picture_taken and distance >10:
             return True
         else:
             return False
