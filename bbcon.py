@@ -22,6 +22,7 @@ class BBCON:
         self.motob = Motob()
         self.arbitrator = Arbitrator(self)
         self.picture_taken = False
+        self.reset = False
         
     def get_active_behaviors(self):
         return self.active_behaviors
@@ -45,20 +46,20 @@ class BBCON:
     def is_picture_taken(self):
         return self.picture_taken
 
+    def reset_sensobs(self):
+        for sensob in self.sensobs:
+            sensob.reset()
+
     def run_one_timestep(self):
-        print("RUN ONE TIME STEP")
         for sensob in self.sensobs:
             sensob.update()
-        print("SENSOBS FINISHED")
         for behavior in self.behaviors:
             behavior.update()
-        print("BEHAVIOUR FINISHED")
-            #print("%s weight: %s" %(behavior.get_name(),behavior.get_weight()))
         motor_recommendations = self.arbitrator.choose_action()
-        #print("Recommendations: %s",(motor_recommendations))
         self.motob.update(motor_recommendations)
-        sleep(0.5)
-        #Halt_request
+        if self.reset:
+            self.reset_sensobs()
+        sleep(0.1)
 
 def main():
     # initialisering
@@ -83,13 +84,14 @@ def main():
 
     bbcon.add_behavior(avoid_borders)  # legger til avoid_borders
     bbcon.add_behavior(walk_randomly)  # legger til walk_randomly
-    #bbcon.add_behavior(clean)          # legger til clean
+    bbcon.add_behavior(clean)          # legger til clean
     bbcon.add_behavior(approach)       # legger til approach
     bbcon.add_behavior(take_photo)     # legger til take_photo
 
     bbcon.activate_behavior(avoid_borders)
     bbcon.activate_behavior(walk_randomly)
     bbcon.activate_behavior(approach)
+    bbcon.activate_behavior(clean)
     #bbcon.activate_behavior(take_photo)
 
     while True:

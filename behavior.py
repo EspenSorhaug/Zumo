@@ -73,14 +73,15 @@ class Walk_randomly(Behavior):
 
     def sense_and_act(self):
 
-        directions = ['f','r','f','f']  # testing
-        # directions = ['f', 'f', 'f', 'f', 'r', 'l']
+        directions = ['l','r','f','f']
         direct_int = random.randint(0,3)
         direction = directions[direct_int]
         duration = 0.1
         speed = 0.3
 
-        self.motor_recommendations = [[direction,speed,duration]]    
+        if direction == 'l' or direction == 'r':
+            duration = 0.2
+        self.motor_recommendations = [[direction,speed,duration]]
         
 
         
@@ -135,13 +136,12 @@ class Avoid_borders(Behavior):
         sensob_values = self.sensob.get_value()
         values_sum = sum(sensob_values)
 
-        print("sensob_values: ", sensob_values)
         # dersom sum av de 6 verdiene er under 3, økes matchdegree
-        print("Sens_val: ",values_sum)
 
         if values_sum < 2:
             self.match_degree = 1
             self.bbcon.picture_taken = False
+            self.bbcon.reset = True
         else:
             self.match_degree = 0
 
@@ -153,30 +153,32 @@ class Avoid_borders(Behavior):
         if border_found.__contains__([0,1]) and not border_found.__contains__([4,5]):
             self.motor_recommendations = [["b", .5, .4], ["r", .5, .6]]
             self.bbcon.picture_taken = False
+            self.bbcon.reset = True
         elif border_found.__contains__([4,5]) and not border_found.__contains__([0,1]):
             self.motor_recommendations = [["b", .5, .4], ["l", .5, .6]]
             self.bbcon.picture_taken = False
+            self.bbcon.reset = True
         else:
             # anbefaler å rygge, og svinge mot venstre dersom møter kant
             self.motor_recommendations = [["b", .5, .4], ["l", .5, .9]]
-        print()
     
 class Clean(Behavior):
     
     def __init__(self, sensob, bbcon): # sensob = ultrasonic sensor object
         super().__init__(sensob, bbcon)
-        self.priority = 0.5
+        self.priority = 0.8
+        self.motor_recommendations = [['f', 0.5, 0.1]]
 
     def consider_activation(self):
         distance = self.sensob.get_value()
-        if self.bbcon.is_picture_taken() and distance < 10:
+        if self.bbcon.is_picture_taken() and distance <=10:
             return True
         else:
             return False
 
     def consider_deactivation(self):
         distance = self.sensob.get_value()
-        if distance > 10:
+        if not self.bbcon.picture_taken:
             return True
         else:
             return False
@@ -187,21 +189,23 @@ class Clean(Behavior):
             change = self.consider_deactivation()
             if change:
                 self.active_flag = False
+                self.match_degree = 0
 
         else:
             change = self.consider_activation()
             if change:
                 self.active_flag = True
+                self.match_degree = 1
 
 
         # Call sense_and_act and updating the weight IF this is an active behavior
         if self.active_flag:
             self.sense_and_act()
-            self.weight = self.match_degree * self.priority
+        self.weight = self.match_degree * self.priority
 
 
     def sense_and_act(self):
-        self.motor_recommendation = [['f', 0.5, 0.5]]
+        self.motor_recommendation = [['f', 0.5, 0.1]]
         self.match_degree = 1
         
 
@@ -210,7 +214,7 @@ class Take_photo(Behavior):
 
     def __init__(self,sensob,bbcon):
         Behavior.__init__(self,sensob,bbcon)
-        self.priority = 0.8
+        self.priority = 0.6
         self.match_degree = 1
         self.motor_recommendations = [["f",0,0.1]]
         self.photo_count = 0
@@ -226,6 +230,7 @@ class Take_photo(Behavior):
 
     def consider_activation(self):
             if not self.bbcon.picture_taken and self.sensob.get_value()[1]<=10:
+                self.match_degree = 1
                 return True
             return False
 
@@ -235,8 +240,6 @@ class Take_photo(Behavior):
     def update(self):
         # Updates camera and saves image if mode is not stand by
         #Resets camera right away
-        print("\n\n")
-        print("UPDATE CAMERA")
         if self.consider_deactivation():
                 self.active_flag = False
                 self.bbcon.deactivate_behavior(self)
@@ -251,10 +254,6 @@ class Take_photo(Behavior):
 
 
     def sense_and_act(self):
-        print("SENSE AND ACT CAMERA")
-        us_value = self.sensob.get_value()[1]
-        print(us_value)
-
         #When zumo is within 10cm of an object take_photo should have greater weight
         if not self.bbcon.picture_taken and self.active_flag:
             im = IMR.Imager(image=self.sensob.get_value()[0])
@@ -263,6 +262,7 @@ class Take_photo(Behavior):
             self.photo_count += 1
             self.bbcon.picture_taken = True
             self.motor_recommendations = [["f",0,0.1]]
+            self.match_degree = 0
 
 
 
@@ -310,8 +310,8 @@ class Approach(Behavior):
 
         #When zumo is within 10cm of an object take_photo should have greater weight
         if sensob_value <= 10:
-            self.match_degree = sensob_value/threshold
-            self.motor_recommendations = [["f",0,0]]
+            self.match_degree = 0
+            self.motor_recommendations = [["f",0,0.1]]
         #Sjekker om et objekt er mindre enn 20cm fra roboten,
         #deretter oker match_degree
         elif sensob_value < threshold:
